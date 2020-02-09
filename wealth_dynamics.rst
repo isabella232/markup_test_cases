@@ -446,12 +446,9 @@ The Lorenz curve shifts downwards as returns on financial income rise, indicatin
 
 .. _htop_again:
 
-.. figure:: /_static/lecture_specific/wealth_dynamics/htop_again.png
+.. figure:: htop_again.png
    :scale: 80
 
-Notice how effectively Numba has implemented multithreading for this routine:
-all 8 CPUs on our workstation are running at maximum capacity (even though
-four of them are virtual).
 
 Now let's check the Gini coefficient. 
 
