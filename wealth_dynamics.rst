@@ -1,4 +1,4 @@
-.. include:: /_static/includes/header.raw
+.. include:: _static/includes/header.raw
 
 .. highlight:: python3
 
