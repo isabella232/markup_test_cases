@@ -24,7 +24,7 @@ Things not yet included in test file above:
 
 * interactive widgets
 
-* [nested directives[(https://github.com/ExecutableBookProject/meta/issues/21#issuecomment-584395008)
+* [nested directive](https://github.com/ExecutableBookProject/meta/issues/21#issuecomment-584395008)
 
 
 Some more test cases available [from sphinxcontrib-jupyter](https://github.com/QuantEcon/sphinxcontrib-jupyter/tree/master/tests/base).
