@@ -421,6 +421,7 @@ plt.show()
 The Lorenz curve shifts downwards as returns on financial income rise,
 indicating a rise in inequality.
 
+<!-- RST label -->
 <div id="htop_again">
 
 ![](htop_again.png)
