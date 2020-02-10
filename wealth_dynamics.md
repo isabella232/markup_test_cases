@@ -56,7 +56,7 @@ already imported above, contains a function to compute Lorenz curves.
 
 To illustrate, suppose that
 
-``` {.sourceCode .ipython3}
+```ipython3
 n = 10_000                      # size of sample
 w = np.exp(np.random.randn(n))  # lognormal draws
 ```
@@ -65,7 +65,7 @@ is data representing the wealth of 10,000 households.
 
 We can compute and plot the Lorenz curve as follows:
 
-``` {.sourceCode .ipython3}
+```ipython3
 f_vals, l_vals = qe.lorenz_curve(w)
 
 fig, ax = plt.subplots()
@@ -75,11 +75,11 @@ ax.legend()
 plt.show()
 ```
 
-This curve can be understood as follows: if point $(x,y)$ lies on the
-curve, it means that, collectively, the bottom $(100x)\%$ of the
-population holds $(100y)\%$ of the wealth.
+This curve can be understood as follows: if point (x,y) lies on the
+curve, it means that, collectively, the bottom (100x)\% of the
+population holds (100y)\% of the wealth.
 
-``` {.sourceCode .ipython3}
+```ipython3
 a_vals = (1, 2, 5)              # Pareto tail index 
 n = 10_000                      # size of each sample
 fig, ax = plt.subplots()
@@ -102,8 +102,7 @@ in the tail of the Pareto distribution.
 ### The Gini Coefficient
 
 The definition and interpretation of the Gini coefficient can be found
-on the corresponding [Wikipedia page
-\<https://en.wikipedia.org/wiki/Gini\_coefficient\>]{.title-ref}\_\_.
+on the corresponding [Wikipedia page](https://en.wikipedia.org/wiki/Gini\_coefficient).
 
 A value of 0 indicates perfect equality (corresponding the case where
 the Lorenz curve matches the 45 degree line) and a value of 1 indicates
@@ -115,12 +114,13 @@ contains a function to calculate the Gini coefficient.
 We can test it on the Weibull distribution with parameter $a$, where the
 Gini coefficient is known to be
 
-$$G = 1 - 2^{-1/a}$$
+
+G = 1 - 2^{-1/a}
 
 Let\'s see if the Gini coefficient computed from a simulated sample
-matches this at each fixed value of $a$.
+matches this at each fixed value of a.
 
-``` {.sourceCode .ipython3}
+```ipython3
 a_vals = range(1, 20)
 ginis = []
 ginis_theoretical = []
@@ -141,48 +141,46 @@ plt.show()
 
 The simulation shows that the fit is good.
 
-A Model of Wealth Dynamics
---------------------------
+## A Model of Wealth Dynamics
 
 Having discussed inequality measures, let us now turn to wealth
 dynamics.
 
 The model we will study is
 
-$$w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}$$
+w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}
 
 where
 
--   $w_t$ is wealth at time $t$ for a given household,
--   $r_t$ is the rate of return of financial assets,
--   $y_t$ is current non-financial (e.g., labor) income and
--   $s(w_t)$ is current wealth net of consumption
+- w_t is wealth at time t for a given household,
+- r_t is the rate of return of financial assets,
+- y_t is current non-financial (e.g., labor) income and
+- s(w_t) is current wealth net of consumption
 
-Letting $\{z_t\}$ be a correlated state process of the form
+Letting \{z_t\} be a correlated state process of the form
 
-$$z_{t+1} = a z_t + b + \sigma_z \epsilon_{t+1}$$
+z_{t+1} = a z_t + b + \sigma_z \epsilon_{t+1}
 
 we'll assume that
 
-$$R_t := 1 + r_t = c_r \exp(z_t) + \exp(\mu_r + \sigma_r \xi_t)$$
+R_t := 1 + r_t = c_r \exp(z_t) + \exp(\mu_r + \sigma_r \xi_t)
 
 and
 
-$$y_t = c_y \exp(z_t) + \exp(\mu_y + \sigma_y \zeta_t)$$
+y_t = c_y \exp(z_t) + \exp(\mu_y + \sigma_y \zeta_t)
 
-Here $\{ (\epsilon_t, \xi_t, \zeta_t) \}$ is IID and standard normal in
-$\mathbb R^3$.
+Here \{ (\epsilon_t, \xi_t, \zeta_t) \} is IID and standard normal in
+\mathbb R^3.
 
-$$s(w) = s_0 w \cdot \mathbb 1\{w \geq \hat w\}$$
+s(w) = s_0 w \cdot \mathbb 1\{w \geq \hat w\}
 
-where $s_0$ is a positive constant.
+where s_0 is a positive constant.
 
-Implementation
---------------
+## Implementation
 
 Here\'s some type information to help Numba.
 
-``` {.sourceCode .ipython3}
+```ipython3
 wealth_dynamics_data = [
     ('w_hat',  float64),    # savings parameter
     ('s_0',    float64),    # savings parameter
@@ -205,7 +203,7 @@ wealth_dynamics_data = [
 Here\'s a class that stores instance data and implements methods that
 update the aggregate state and household wealth.
 
-``` {.sourceCode .ipython3}
+```ipython3
 @jitclass(wealth_dynamics_data)
 class WealthDynamics:
 
@@ -273,7 +271,7 @@ class WealthDynamics:
 Here\'s function to simulate the time series of wealth for in individual
 households.
 
-``` {.sourceCode .ipython3}
+```ipython3
 @njit
 def wealth_time_series(wdy, w_0, n):
     """
@@ -302,7 +300,7 @@ in time.
 
 Note the use of parallelization to speed up computation.
 
-``` {.sourceCode .ipython3}
+```ipython3
 @njit(parallel=True)
 def update_cross_section(wdy, w_distribution, shift_length=500):
     """
@@ -334,8 +332,7 @@ Parallelization is very effective in the function above because the time
 path of each household can be calculated independently once the path for
 the aggregate state is known.
 
-Applications
-------------
+## Applications
 
 Let\'s try simulating the model at different parameter values and
 investigate the implications for the wealth distribution.
@@ -344,7 +341,7 @@ investigate the implications for the wealth distribution.
 
 Let\'s look at the wealth dynamics of an individual household.
 
-``` {.sourceCode .ipython3}
+```ipython3
 wdy = WealthDynamics()
 
 ts_length = 200
@@ -358,8 +355,7 @@ plt.show()
 Notice the large spikes in wealth over time.
 
 Such spikes are similar to what we observed in time series when
-`we studied Kesten processes <kesten_processes>`{.interpreted-text
-role="doc"}.
+[we studied Kesten processes](kesten_processes).
 
 ### Inequality Measures
 
@@ -368,7 +364,7 @@ Let\'s look at how inequality varies with returns on financial assets.
 The next function generates a cross section and then computes the Lorenz
 curve and Gini coefficient.
 
-``` {.sourceCode .ipython3}
+```ipython3
 def generate_lorenz_and_gini(wdy, num_households=100_000, T=500):
     """
     Generate the Lorenz curve data and gini coefficient corresponding to a 
@@ -385,7 +381,7 @@ Now we investigate how the Lorenz curves associated with the wealth
 distribution change as return to savings varies.
 
 The code below plots Lorenz curves for three different values of
-$\mu_r$.
+\mu_r.
 
 If you are running this yourself, note that it will take one or two
 minutes to execute.
@@ -395,7 +391,7 @@ This is unavoidable because we are executing a CPU intensive task.
 In fact the code, which is JIT compiled and parallelized, runs extremely
 fast relative to the number of computations.
 
-``` {.sourceCode .ipython3}
+```ipython3
 fig, ax = plt.subplots()
 μ_r_vals = (0.0, 0.025, 0.05)
 gini_vals = []
@@ -414,14 +410,16 @@ plt.show()
 The Lorenz curve shifts downwards as returns on financial income rise,
 indicating a rise in inequality.
 
-::: {#htop_again}
+<div id="htop_again">
+
 ![](htop_again.png)
-:::
+
+</div>
 
 Now let\'s check the Gini coefficient.
 
-``` {.sourceCode .ipython3}
-fig, ax = plt.subplots()    
+```ipython3
+fig, ax = plt.subplots()
 ax.plot(μ_r_vals, gini_vals, label='gini coefficient')
 ax.set_xlabel("$\mu_r$")
 ax.legend()
@@ -432,9 +430,9 @@ Once again, we see that inequality increases as returns on financial
 income rise.
 
 Let\'s finish this section by investigating what happens when we change
-the volatility term $\sigma_r$ in financial returns.
+the volatility term \sigma_r in financial returns.
 
-``` {.sourceCode .ipython3}
+```ipython3
 fig, ax = plt.subplots()
 σ_r_vals = (0.35, 0.45, 0.52)
 gini_vals = []
