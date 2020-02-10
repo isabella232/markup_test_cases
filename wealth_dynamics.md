@@ -1,6 +1,6 @@
 # Wealth Distribution Dynamics
 
-In addition to what\'s in Anaconda, this lecture will need the following
+In addition to what's in Anaconda, this lecture will need the following
 libraries:
 
 ```ipython
@@ -24,7 +24,7 @@ The wealth distribution in many countries exhibits a Pareto tail
 - See [this lecture](heavy_tails) for a
     definition.
 - For a review of the empirical evidence, see, for example,
-    benhabib2018skewed.
+    :cite`benhabib2018skewed`.
 
 ### A Note on Assumptions
 
@@ -76,8 +76,8 @@ plt.show()
 ```
 
 This curve can be understood as follows: if point (x,y) lies on the
-curve, it means that, collectively, the bottom (100x)\% of the
-population holds (100y)\% of the wealth.
+curve, it means that, collectively, the bottom $(100x)\%$ of the
+population holds $(100y)\%$ of the wealth.
 
 ```ipython3
 a_vals = (1, 2, 5)              # Pareto tail index 
@@ -114,10 +114,11 @@ contains a function to calculate the Gini coefficient.
 We can test it on the Weibull distribution with parameter $a$, where the
 Gini coefficient is known to be
 
-
+$$
 G = 1 - 2^{-1/a}
+$$
 
-Let\'s see if the Gini coefficient computed from a simulated sample
+Let's see if the Gini coefficient computed from a simulated sample
 matches this at each fixed value of a.
 
 ```ipython3
@@ -148,7 +149,9 @@ dynamics.
 
 The model we will study is
 
+$$
 w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}
+$$
 
 where
 
@@ -159,26 +162,34 @@ where
 
 Letting \{z_t\} be a correlated state process of the form
 
+$$
 z_{t+1} = a z_t + b + \sigma_z \epsilon_{t+1}
+$$
 
 we'll assume that
 
+$$
 R_t := 1 + r_t = c_r \exp(z_t) + \exp(\mu_r + \sigma_r \xi_t)
+$$
 
 and
 
+$$
 y_t = c_y \exp(z_t) + \exp(\mu_y + \sigma_y \zeta_t)
+$$
 
-Here \{ (\epsilon_t, \xi_t, \zeta_t) \} is IID and standard normal in
-\mathbb R^3.
+Here $\{ ($\epsilon_t$, \xi_t, \zeta_t) \}$ is IID and standard normal in
+$\mathbb R^3$.
 
+$$
 s(w) = s_0 w \cdot \mathbb 1\{w \geq \hat w\}
+$$
 
-where s_0 is a positive constant.
+where $s_0$ is a positive constant.
 
 ## Implementation
 
-Here\'s some type information to help Numba.
+Here's some type information to help Numba.
 
 ```ipython3
 wealth_dynamics_data = [
@@ -200,7 +211,7 @@ wealth_dynamics_data = [
 ]
 ```
 
-Here\'s a class that stores instance data and implements methods that
+Here's a class that stores instance data and implements methods that
 update the aggregate state and household wealth.
 
 ```ipython3
@@ -268,7 +279,7 @@ class WealthDynamics:
         return wp, zp
 ```
 
-Here\'s function to simulate the time series of wealth for in individual
+Here's function to simulate the time series of wealth for in individual
 households.
 
 ```ipython3
@@ -295,7 +306,7 @@ def wealth_time_series(wdy, w_0, n):
     return w
 ```
 
-Now here\'s function to simulate a cross section of households forward
+Now here's function to simulate a cross section of households forward
 in time.
 
 Note the use of parallelization to speed up computation.
@@ -334,12 +345,12 @@ the aggregate state is known.
 
 ## Applications
 
-Let\'s try simulating the model at different parameter values and
+Let's try simulating the model at different parameter values and
 investigate the implications for the wealth distribution.
 
 ### Time Series
 
-Let\'s look at the wealth dynamics of an individual household.
+Let's look at the wealth dynamics of an individual household.
 
 ```ipython3
 wdy = WealthDynamics()
@@ -359,7 +370,7 @@ Such spikes are similar to what we observed in time series when
 
 ### Inequality Measures
 
-Let\'s look at how inequality varies with returns on financial assets.
+Let's look at how inequality varies with returns on financial assets.
 
 The next function generates a cross section and then computes the Lorenz
 curve and Gini coefficient.
@@ -381,7 +392,7 @@ Now we investigate how the Lorenz curves associated with the wealth
 distribution change as return to savings varies.
 
 The code below plots Lorenz curves for three different values of
-\mu_r.
+$\mu_r$.
 
 If you are running this yourself, note that it will take one or two
 minutes to execute.
@@ -416,7 +427,7 @@ indicating a rise in inequality.
 
 </div>
 
-Now let\'s check the Gini coefficient.
+Now let's check the Gini coefficient.
 
 ```ipython3
 fig, ax = plt.subplots()
@@ -429,8 +440,8 @@ plt.show()
 Once again, we see that inequality increases as returns on financial
 income rise.
 
-Let\'s finish this section by investigating what happens when we change
-the volatility term \sigma_r in financial returns.
+Let's finish this section by investigating what happens when we change
+the volatility term $\sigma_r$ in financial returns.
 
 ```ipython3
 fig, ax = plt.subplots()
