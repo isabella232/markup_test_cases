@@ -119,7 +119,7 @@ G = 1 - 2^{-1/a}
 $$
 
 Let's see if the Gini coefficient computed from a simulated sample
-matches this at each fixed value of a.
+matches this at each fixed value of $a$.
 
 ```ipython3
 a_vals = range(1, 20)
@@ -160,7 +160,7 @@ where
 - y_t is current non-financial (e.g., labor) income and
 - s(w_t) is current wealth net of consumption
 
-Letting \{z_t\} be a correlated state process of the form
+Letting $\{z_t\}$ be a correlated state process of the form
 
 $$
 z_{t+1} = a z_t + b + \sigma_z \epsilon_{t+1}
