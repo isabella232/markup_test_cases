@@ -75,7 +75,7 @@ ax.legend()
 plt.show()
 ```
 
-This curve can be understood as follows: if point (x,y) lies on the
+This curve can be understood as follows: if point $(x,y)$ lies on the
 curve, it means that, collectively, the bottom $(100x)\%$ of the
 population holds $(100y)\%$ of the wealth.
 
@@ -155,10 +155,10 @@ $$
 
 where
 
-- w_t is wealth at time t for a given household,
-- r_t is the rate of return of financial assets,
-- y_t is current non-financial (e.g., labor) income and
-- s(w_t) is current wealth net of consumption
+- $w_t$ is wealth at time $t$ for a given household,
+- $r_t$ is the rate of return of financial assets,
+- $y_t$ is current non-financial (e.g., labor) income and
+- $s(w_t)$ is current wealth net of consumption
 
 Letting $\{z_t\}$ be a correlated state process of the form
 
