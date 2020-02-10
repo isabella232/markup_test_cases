@@ -2,7 +2,13 @@
 
 Markup test cases for source files
 
-Things not yet included:
+| File   |      Markup Syntax      |
+|----------|:-------------:|
+| wealth_dynamics.rst |  ReStructuredText |
+| wealth_dynamics.md  |    Commonmark++   |
+| weath_dynamics.Rmd | R Markdown |
+
+Things not yet included in test file above:
 
 * theorems
 
@@ -17,7 +23,6 @@ Things not yet included:
 * warnings
 
 * interactive widgets
-
 
 
 Some more test cases available [from sphinxcontrib-jupyter](https://github.com/QuantEcon/sphinxcontrib-jupyter/tree/master/tests/base).
