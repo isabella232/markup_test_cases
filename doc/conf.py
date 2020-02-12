@@ -21,6 +21,7 @@ project = 'myst'
 copyright = '2020, ebp'
 author = 'ebp'
 
+master_doc = 'index'
 
 # -- General configuration ---------------------------------------------------
 
