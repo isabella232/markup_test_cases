@@ -3,7 +3,7 @@
 In addition to what's in Anaconda, this lecture will need the following
 libraries:
 
-```{code-block} python
+```{code-block} ipython
 ---
 class: hide-output
 ---
