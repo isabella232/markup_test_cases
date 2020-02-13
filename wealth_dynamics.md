@@ -3,7 +3,7 @@
 In addition to what's in Anaconda, this lecture will need the following
 libraries:
 
-```{code-block} ipython
+```{code-block} python
 ---
 class: hide-output
 ---
@@ -36,7 +36,7 @@ behavior.
 
 We will use the following imports.
 
-```{code-block} ipython3
+```{code-block} python
 import numpy as np
 import matplotlib.pyplot as plt
 %matplotlib inline
@@ -59,7 +59,7 @@ already imported above, contains a function to compute Lorenz curves.
 
 To illustrate, suppose that
 
-```{code-block} ipython3
+```{code-block} python
 n = 10_000                      # size of sample
 w = np.exp(np.random.randn(n))  # lognormal draws
 ```
@@ -68,7 +68,7 @@ is data representing the wealth of 10,000 households.
 
 We can compute and plot the Lorenz curve as follows:
 
-```{code-block} ipython3
+```{code-block} python
 f_vals, l_vals = qe.lorenz_curve(w)
 
 fig, ax = plt.subplots()
@@ -82,7 +82,7 @@ This curve can be understood as follows: if point {math}`x,y` lies on the
 curve, it means that, collectively, the bottom {math}`100x)\%` of the
 population holds {math}`(100y)\%` of the wealth.
 
-```{code-block} ipython3
+```{code-block} python
 a_vals = (1, 2, 5)              # Pareto tail index 
 n = 10_000                      # size of each sample
 fig, ax = plt.subplots()
@@ -124,7 +124,7 @@ G = 1 - 2^{-1/a}
 Let's see if the Gini coefficient computed from a simulated sample
 matches this at each fixed value of {math}`a`.
 
-```{code-block} ipython3
+```{code-block} python
 a_vals = range(1, 20)
 ginis = []
 ginis_theoretical = []
@@ -194,7 +194,7 @@ where {math}`s_0` is a positive constant.
 
 Here's some type information to help Numba.
 
-```{code-block} ipython3
+```{code-block} python
 wealth_dynamics_data = [
     ('w_hat',  float64),    # savings parameter
     ('s_0',    float64),    # savings parameter
@@ -217,7 +217,7 @@ wealth_dynamics_data = [
 Here's a class that stores instance data and implements methods that
 update the aggregate state and household wealth.
 
-```{code-block} ipython3
+```{code-block} python
 @jitclass(wealth_dynamics_data)
 class WealthDynamics:
 
@@ -285,7 +285,7 @@ class WealthDynamics:
 Here's function to simulate the time series of wealth for in individual
 households.
 
-```{code-block} ipython3
+```{code-block} python
 @njit
 def wealth_time_series(wdy, w_0, n):
     """
@@ -314,7 +314,7 @@ in time.
 
 Note the use of parallelization to speed up computation.
 
-```{code-block} ipython3
+```{code-block} python
 @njit(parallel=True)
 def update_cross_section(wdy, w_distribution, shift_length=500):
     """
@@ -355,7 +355,7 @@ investigate the implications for the wealth distribution.
 
 Let's look at the wealth dynamics of an individual household.
 
-```{code-block} ipython3
+```{code-block} python
 wdy = WealthDynamics()
 
 ts_length = 200
@@ -378,7 +378,7 @@ Let's look at how inequality varies with returns on financial assets.
 The next function generates a cross section and then computes the Lorenz
 curve and Gini coefficient.
 
-```{code-block} ipython3
+```{code-block} python
 def generate_lorenz_and_gini(wdy, num_households=100_000, T=500):
     """
     Generate the Lorenz curve data and gini coefficient corresponding to a 
@@ -405,7 +405,7 @@ This is unavoidable because we are executing a CPU intensive task.
 In fact the code, which is JIT compiled and parallelized, runs extremely
 fast relative to the number of computations.
 
-```{code-block} ipython3
+```{code-block} python
 fig, ax = plt.subplots()
 μ_r_vals = (0.0, 0.025, 0.05)
 gini_vals = []
@@ -425,15 +425,16 @@ The Lorenz curve shifts downwards as returns on financial income rise,
 indicating a rise in inequality.
 
 <!-- RST label -->
-<div id="htop_again">
 
-![](htop_again.png)
-
-</div>
+```{image} htop_again.png
+---
+scale: 80%
+---
+```
 
 Now let's check the Gini coefficient.
 
-```{code-block} ipython3
+```{code-block} python
 fig, ax = plt.subplots()
 ax.plot(μ_r_vals, gini_vals, label='gini coefficient')
 ax.set_xlabel("$\mu_r$")
@@ -447,7 +448,7 @@ income rise.
 Let's finish this section by investigating what happens when we change
 the volatility term {math}`\sigma_r` in financial returns.
 
-```{code-block} ipython3
+```{code-block} python
 fig, ax = plt.subplots()
 σ_r_vals = (0.35, 0.45, 0.52)
 gini_vals = []
